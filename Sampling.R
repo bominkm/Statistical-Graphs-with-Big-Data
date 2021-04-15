@@ -1,0 +1,11 @@
+library("tidyverse")
+library("sampling")
+
+data2017<-read_csv("NHIS_OPEN_GJ_2017.csv")
+DATA2017<-select(data2017,HCHK_YEAR:DRK_YN)%>%arrange(SIDO)
+k<-DATA2017%>%group_by(SIDO)%>%summarise(count = round(n()/50))
+idx <- strata(data = DATA2017, stratanames = "SIDO", size = k$count, method = "srswor")
+sample2017 <- getdata(DATA2017, idx)
+tail(sample2017)
+sample2017%>%group_by(SIDO)%>%summarise(count = n())
+write.csv(sample2017, file="Sampling_2017.csv")
