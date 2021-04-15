@@ -1,10 +1,3 @@
----
-title: "보고서_4"
-author: "김보민"
-date: '2019 12 11 '
-output: word_document
----
-```{r}
 library(ggplot2)
 library(tidyverse)
 library(modelr)
@@ -44,6 +37,4 @@ data_sight_right%>%gather_residuals(mod1, mod2)%>%ggplot(aes(BLDS, resid, color=
 #대사증후군 상관성
 data%>%filter(WAIST<150)%>%filter(TRIGLYCERIDE<1200)%>%filter(HDL_CHOLE<200)%>%
 select(WAIST,BLDS,BP_HIGH,TRIGLYCERIDE,HDL_CHOLE)%>%ggpairs()
-
-```
 
