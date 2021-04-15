@@ -1,19 +1,13 @@
----
-title: "Data_analysis_191120"
-author: "KimBomin"
-date: '2019 11 20 '
-output: word_document
----
-```{r}
+library(ggplot2)
+library(tidyverse)
+library(GGally)
+library(ggmosaic)
+
 setwd("C:/Users/bomin/Desktop/이화여대/빅데이터를이용한통계그래픽스/팀프로젝트" )
 data<- read.csv("NHIS_TOTAL.csv",header=TRUE) 
 str(data)
 
 #EDA
-library(ggplot2)
-library(tidyverse)
-library(GGally)
-library(ggmosaic)
 ggplot(data=data, aes(SEX))+geom_bar() 
 #성별: 남자>여자
 ggplot(data=data, aes(AGE_GROUP))+geom_bar() 
@@ -97,14 +91,12 @@ data_BMI%>%gather('normal','overweight','obesity','high_obesity', key='obesity',
 #가설5: 당뇨병환자는 시간이 지날수록 시력이 나빠질 것이다.
 data%>%filter(BLDS>=126)%>%filter(SIGHT_LEFT<2.5)%>%ggplot(aes(factor(HCHK_YEAR), SIGHT_LEFT))+geom_boxplot()
 data%>%filter(BLDS>=126)%>%filter(SIGHT_RIGHT<2.5)%>%ggplot(aes(factor(HCHK_YEAR), SIGHT_RIGHT))+geom_boxplot()
-#당뇨병으로 진단할 수 있는 수치인 식전혈당 126이상으로 filter하고 실명이 아닌 사람의 시력으로 범위를 설정한 후 년도별로 boxplot을 그렸습니다. 설정한 가설대로 년도에 따라 시력이 감소하지는 않았습니다. 년도별로 특정한 패턴이 있는 것 같은데 제가 코드를 잘못 입력해서인지 원인은 찾지 못했습니다.
+#당뇨병으로 진단할 수 있는 수치인 식전혈당 126이상으로 filter하고 실명이 아닌 사람의 시력으로 범위를 설정한 후 년도별로 boxplot을 그렸으나 설정한 가설대로 년도에 따라 시력이 감소하지는 않음
 
 #가설6: 실명의 원인은 당뇨병일 것이다.
 data%>%filter(SIGHT_LEFT==9.9)%>%ggplot(aes(BLDS))+geom_density()
-#그래프가 가설을 입증하지 못했습니다. 실명과 당뇨병은 무관하다고 보는게 타당한 것 같습니다.
+#실명과 당뇨병은 무관
 
 #가설7: 서울에서 멀어질수록 술을 덜 마실 것이다.
 data%>%filter(!is.na(DRK_YN))%>%ggplot(aes(factor(DRK_YN), color=factor(SIDO)))+geom_density()
-#지역별로 자료의 개수가 차이가 나서 density함수를 그렸는데 density값이 1을 넘는 것으로 보아 코드를 수정해야 할 것 같습니다. y=..scaled..를 입력해도 density값이 1인 값이 있어 아직 잘못된 부분을 찾지 못했습니다. 또한, 지도를 활용하여 그래프를 그릴 수 있다면 더 좋을 것 같습니다.
-```
 
